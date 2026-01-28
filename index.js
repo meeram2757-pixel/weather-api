@@ -5,7 +5,7 @@ const errorDiv = document.querySelector("#error");
 const weatherInfoDiv = document.querySelector("#weatherInfo");
 const cityName = document.querySelector("#cityName");
 const condition = document.querySelector("#condition");
-const temperature = document.querySelector("#termerature");
+const temperature = document.querySelector("#temperature");
 const windSpeed = document.querySelector("#windSpeed");
 const humidity = document.querySelector("#humidity");
 const recentContainer = document.querySelector("#recentSearches");
@@ -138,12 +138,42 @@ function displayWeather(data) {
     humidity.textContent = data.main.humidity;
 
 }
-window.addEventListener("load", () => {
-    renderRecentButtons();
-    console.log("App ready. Waiting for user input.");
-});
 
 document.querySelector("#clearHistory").addEventListener("click", () => {
     localStorage.removeItem("recentCities");
     renderRecentButtons();
+});
+
+function getLocalWeather() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(async (position) => {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+
+            loadingSpinner.classList.remove("hidden");
+            weatherInfoDiv.classList.add("hidden");
+              
+           const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
+
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error("Location not found");
+                const data = await response.json();
+                
+                loadingSpinner.classList.add("hidden");
+                displayWeather(data);
+            } catch (error) {
+                loadingSpinner.classList.add("hidden");
+                displayError("Could not fetch weather for your location.");
+            }
+        }, (error) => {
+            console.warn("User denied geolocation or error occurred.");
+        });
+    }
+}
+
+window.addEventListener("load", () => {
+    renderRecentButtons();
+    getLocalWeather(); 
+    console.log("App ready. Fetching local weather...");
 });
