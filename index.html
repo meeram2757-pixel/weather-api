@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather Checker</title>
+    <link rel="stylesheet" href="index.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Weather Checker</h1>
+      <div class="search-bar">
+        <input type="text" id="cityInput" placeholder="Enter City Name" />
+        <button id="searchBtn">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </div>
+      <div id="recentSearches" class="recent-searches"></div>
+      <button id="clearHistory" class="clear-btn">Clear History</button>
+
+      <div id="error" class="error-message"></div>
+      <div id="loading" class="spinner hidden"></div>
+      <div id="weatherInfo" class="weather-info hidden">
+        <h2 id="cityName">Lahore</h2>
+        <div id="condition" class="condition"></div>
+        <div class="details">
+          <div>
+            <i class="fa-solid fa-temperature-three-quarters"></i>
+            <span id="termerature"> </span> °C
+          </div>
+          <div>
+            <i class="fa-solid fa-wind"></i><span id="windSpeed"> </span> km/h
+          </div>
+          <div>
+            <i class="fa-solid fa-droplet"></i
+            ><span id="humidity"></span> %Humidity
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="index.js"></script>
+  </body>
+</html>
